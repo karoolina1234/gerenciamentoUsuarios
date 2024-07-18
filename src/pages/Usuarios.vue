@@ -1,36 +1,39 @@
 <template>
   <AppNavigation />
   <div class="btnAdd">
-    <v-btn prepend-icon="mdi-plus" variant="tonal" @click="adicionarUsuario">
+    <v-btn
+      prepend-icon="mdi-plus"
+      variant="tonal"
+      @click="adicionarUsuario"
+      color="teal-lighten-3"
+    >
       Adiconar usuário
     </v-btn>
   </div>
 
   <div class="tableusers">
-    <v-table fixed-header>
+    <v-table fixed-header hove>
       <thead>
         <tr>
           <th class="text-left">Nome</th>
           <th class="text-left">UserName</th>
           <th class="text-left">Email</th>
           <th class="text-left">Telefone</th>
-          <th class="text-left">Endereço</th>
+          <th class="text-left">Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user.name.firstname }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.phone }}</td>
-          <td>{{ user.address.city + user.address.street }}</td>
-        </tr>
         <tr v-for="user in usersData" :key="user.id">
           <td>{{ user.name.firstname }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>
-          <td>{{ user.address.city + user.address.street }}</td>
+          <td>
+            <v-btn icon="mdi-delete" variant="tonal" color="teal-lighten-3">
+            </v-btn>
+            <v-btn icon="mdi-pencil" variant="tonal" color="teal-lighten-3">
+            </v-btn>
+          </td>
         </tr>
       </tbody>
     </v-table>
@@ -48,7 +51,7 @@ export default {
     },
   },
 
-  computed: mapState(["users", "usersData"]),
+  computed: mapState(["usersData"]),
 };
 </script>
 
@@ -64,7 +67,11 @@ export default {
 .tableusers table tbody td {
   width: calc(100% / 5);
 }
-.tableusers table thead td {
+.tableusers table thead tr th {
   width: calc(100% / 5);
+  background: #b2dfdb !important;
+}
+.tableusers button {
+  margin: 0.2rem;
 }
 </style>

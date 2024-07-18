@@ -9,6 +9,7 @@ export default createStore({
   mutations: {
     loadUsers(state, users) {
       state.users = users;
+      localStorage.setItem("usersData", JSON.stringify(state.users));
     },
     addUser(state, newUser) {
       state.usersData.push(newUser);

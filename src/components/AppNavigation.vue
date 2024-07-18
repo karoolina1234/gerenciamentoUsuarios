@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-navigation-drawer :width="178" class="navStyle">
+    <v-navigation-drawer
+      :width="178"
+      class="navStyle"
+      color="teal-lighten-4"
+      mobile-breakpoint="xs"
+    >
       <v-list-item title="Gerenciamento" subtitle="Vuetify"></v-list-item>
       <v-divider></v-divider>
       <router-link to="/">
@@ -18,7 +23,9 @@
 
 <style scoped>
 .navStyle a {
-  color: #fff;
   text-decoration: none;
+}
+.v-list-item {
+  color: #004d40;
 }
 </style>
