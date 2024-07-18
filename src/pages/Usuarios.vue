@@ -12,7 +12,7 @@
   </div>
 
   <div class="tableusers">
-    <v-table fixed-header hove>
+    <v-table fixed-header hover>
       <thead>
         <tr>
           <th class="text-left">Nome</th>
@@ -29,9 +29,19 @@
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>
           <td>
-            <v-btn icon="mdi-delete" variant="tonal" color="teal-lighten-3">
+            <v-btn
+              icon="mdi-delete"
+              variant="tonal"
+              color="teal-lighten-3"
+              @click="removeUser(user.id)"
+            >
             </v-btn>
-            <v-btn icon="mdi-pencil" variant="tonal" color="teal-lighten-3">
+            <v-btn
+              icon="mdi-pencil"
+              variant="tonal"
+              color="teal-lighten-3"
+              @click="editarUser(user.id)"
+            >
             </v-btn>
           </td>
         </tr>
@@ -48,6 +58,12 @@ export default {
   methods: {
     adicionarUsuario() {
       this.$router.push("/adicionarUser");
+    },
+    editarUser(id) {
+      this.$router.push(`/adicionarUser/${id}`);
+    },
+    removeUser(id) {
+      this.$store.dispatch("removeUser", id);
     },
   },
 

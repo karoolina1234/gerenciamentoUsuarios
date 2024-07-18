@@ -15,6 +15,11 @@ export default createStore({
       state.usersData.push(newUser);
       localStorage.setItem("usersData", JSON.stringify(state.usersData));
     },
+    removeUser(state, id) {
+      var update = state.usersData.filter((item) => item.id !== id);
+      state.usersData = update;
+      localStorage.setItem("usersData", JSON.stringify(state.usersData));
+    },
     initializeStore(state) {
       if (localStorage.getItem("usersData")) {
         state.usersData = JSON.parse(localStorage.getItem("usersData"));
@@ -38,6 +43,9 @@ export default createStore({
         .catch((error) => {
           console.error(error);
         });
+    },
+    removeUser({ commit }, id) {
+      commit("removeUser", id);
     },
     initializeStore({ commit }) {
       commit("initializeStore");
