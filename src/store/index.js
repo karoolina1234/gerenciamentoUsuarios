@@ -5,11 +5,16 @@ export default createStore({
   state: {
     users: [],
     usersData: [],
+    user: [],
   },
   mutations: {
     loadUsers(state, users) {
       state.users = users;
       localStorage.setItem("usersData", JSON.stringify(state.users));
+    },
+    loadUserID(state, user) {
+      state.user = user;
+      localStorage.setItem("user", JSON.stringify(user));
     },
     addUser(state, newUser) {
       state.usersData.push(newUser);
@@ -24,14 +29,27 @@ export default createStore({
       if (localStorage.getItem("usersData")) {
         state.usersData = JSON.parse(localStorage.getItem("usersData"));
       }
+      if (localStorage.getItem("user")) {
+        state.user = JSON.parse(localStorage.getItem("user"));
+      }
     },
   },
+
   actions: {
     loadUsers({ commit }) {
       axios.get("https://fakestoreapi.com/users?limit=100").then((response) => {
         commit("loadUsers", response.data);
       });
     },
+
+    loadUsersById({ commit }, id) {
+      return axios
+        .get(`https://fakestoreapi.com/users/${id}`)
+        .then((response) => {
+          commit("loadUserID", response.data);
+        });
+    },
+
     createUser({ commit }, newUser) {
       axios
         .post("https://fakestoreapi.com/users", newUser)

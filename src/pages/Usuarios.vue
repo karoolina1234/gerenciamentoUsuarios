@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <tr v-for="user in usersData" :key="user.id">
-          <td>{{ user.name.firstname }}</td>
+          <td>{{ user.name.firstname + user.id }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>

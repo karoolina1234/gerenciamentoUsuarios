@@ -5,6 +5,7 @@
       :counter="10"
       label="Nome"
       required
+      :error-messages="v$.name.$errors.map((e) => e.$message)"
       @blur="v$.name.$touch"
       @input="v$.name.$touch"
     ></v-text-field>
@@ -13,14 +14,16 @@
       v-model="state.email"
       label="E-mail"
       required
+      :error-messages="v$.email.$errors.map((e) => e.$message)"
       @blur="v$.email.$touch"
       @input="v$.email.$touch"
     ></v-text-field>
 
     <v-text-field
       v-model="state.username"
-      label="username"
+      label="Username"
       required
+      :error-messages="v$.username.$errors.map((e) => e.$message)"
       @blur="v$.username.$touch"
       @input="v$.username.$touch"
     ></v-text-field>
@@ -30,6 +33,7 @@
       label="Senha"
       type="password"
       required
+      :error-messages="v$.password.$errors.map((e) => e.$message)"
       @blur="v$.password.$touch"
       @input="v$.password.$touch"
     ></v-text-field>
@@ -40,11 +44,11 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, watch, computed } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { email, required } from "@vuelidate/validators";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const initialState = {
   name: "",
@@ -67,16 +71,39 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 
+const userId = computed(() => route.params.id);
+
+const user = computed(() => store.state.user);
+console.log("Estado do usuário:", user.value);
+
+if (userId.value) {
+  store
+    .dispatch("loadUsersById", userId.value)
+    .then(() => {
+      const value = user.value;
+      console.log("Usuário carregado:", value);
+      if (value) {
+        state.name = value?.name?.firstname || "";
+        state.email = value.email || "";
+        state.username = value.username || "";
+        v$.value.$reset();
+      }
+    })
+    .catch((error) => {
+      console.error("Falha ao buscar usuário:", error);
+    });
+} else {
+  clear();
+}
 function clear() {
   v$.value.$reset();
-
-  for (const [key, value] of Object.entries(initialState)) {
-    state[key] = value;
-  }
+  Object.assign(state, initialState);
 }
 
 function submitForm() {
+  v$.value.$touch(); // Trigger validation
   if (v$.value.$invalid) {
     return;
   }
