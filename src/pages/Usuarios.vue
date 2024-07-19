@@ -1,5 +1,4 @@
 <template>
-  <AppNavigation />
   <div class="btnAdd">
     <v-btn
       prepend-icon="mdi-plus"
@@ -66,7 +65,9 @@ export default {
       this.$store.dispatch("removeUser", id);
     },
   },
-
+  created() {
+    this.$store.dispatch("initializeStore");
+  },
   computed: mapState(["usersData"]),
 };
 </script>
