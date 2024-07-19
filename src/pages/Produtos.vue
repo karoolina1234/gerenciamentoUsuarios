@@ -37,7 +37,7 @@
           </div>
         </v-row>
 
-        <div class="my-4 text-subtitle-1">$ • {{ prod.price }}</div>
+        <div class="my-4 text-subtitle-1">$ {{ prod.price.toFixed(2) }}</div>
         <div class="description">
           {{ prod.description }}
         </div>
@@ -45,7 +45,7 @@
 
       <v-card-actions>
         <v-btn
-          color="deep-purple-lighten-2"
+          color="teal-lighten-3"
           text="Adicionar"
           block
           border
@@ -69,6 +69,7 @@ export default {
 
 <style lang="scss" scoped>
 .areaCard {
+  text-align: center;
   .v-card {
     display: inline-block;
 
