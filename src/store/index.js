@@ -6,6 +6,7 @@ export default createStore({
     users: [],
     usersData: [],
     user: [],
+    products: [],
   },
   mutations: {
     loadUsers(state, users) {
@@ -55,6 +56,10 @@ export default createStore({
         state.user = JSON.parse(localStorage.getItem("user"));
       }
     },
+
+    loadProd(state, prod) {
+      state.products = prod;
+    },
   },
 
   actions: {
@@ -101,6 +106,12 @@ export default createStore({
     },
     initializeStore({ commit }) {
       commit("initializeStore");
+    },
+
+    loadProd({ commit }) {
+      axios.get("https://fakestoreapi.com/products").then((response) => {
+        commit("loadProd", response.data);
+      });
     },
   },
   modules: {},
