@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { reactive, watch, computed } from "vue";
+import { reactive, computed } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { email, required } from "@vuelidate/validators";
 import { useStore } from "vuex";
@@ -129,14 +129,26 @@ function submitForm() {
     phone: "1-570-236-7033",
   };
 
-  store
-    .dispatch("createUser", newUser)
-    .then(() => {
-      clear();
-      router.push("/usuarios");
-    })
-    .catch((error) => {
-      console.error("Failed to add user:", error);
-    });
+  if (userId.value) {
+    store
+      .dispatch("updateUser", { id: userId.value, newUser: newUser })
+      .then(() => {
+        clear();
+        router.push("/usuarios");
+      })
+      .catch((error) => {
+        console.error("Failed to update user:", error);
+      });
+  } else {
+    store
+      .dispatch("createUser", newUser)
+      .then(() => {
+        clear();
+        router.push("/usuarios");
+      })
+      .catch((error) => {
+        console.error("Failed to add user:", error);
+      });
+  }
 }
 </script>

@@ -20,6 +20,25 @@ export default createStore({
       state.usersData.push(newUser);
       localStorage.setItem("usersData", JSON.stringify(state.usersData));
     },
+    updateUser(state, { id, newUser }) {
+      console.log("Olá", newUser);
+      const userIndex = state.usersData.findIndex(
+        (user) => user.id === parseInt(id)
+      );
+      console.log({ userIndex }, state.usersData, id);
+
+      const userUpdate = {
+        ...newUser,
+        id: parseInt(id),
+      };
+      if (userIndex !== -1) {
+        state.usersData[userIndex] = userUpdate;
+
+        localStorage.setItem("usersData", JSON.stringify(state.usersData));
+      } else {
+        console.error("Usuário não encontrado!");
+      }
+    },
     removeUser(state, id) {
       var update = state.usersData.filter((item) => item.id !== id);
       state.usersData = update;
@@ -64,6 +83,18 @@ export default createStore({
     },
     removeUser({ commit }, id) {
       commit("removeUser", id);
+    },
+    updateUser({ commit }, { id, newUser }) {
+      axios
+        .put(`https://fakestoreapi.com/users/${id}`, newUser)
+        .then((response) => {
+          if (response.status === 201 || response.status === 200) {
+            commit("updateUser", { id: id, newUser: newUser });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     initializeStore({ commit }) {
       commit("initializeStore");
