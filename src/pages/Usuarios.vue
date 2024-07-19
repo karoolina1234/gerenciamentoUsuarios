@@ -37,6 +37,7 @@
             >
             </v-btn>
             <v-btn
+              v-if="!user.isCreate"
               icon="mdi-pencil"
               variant="tonal"
               color="teal-lighten-3"
@@ -52,7 +53,6 @@
 
 <script>
 import { mapState } from "vuex";
-
 export default {
   name: "UsuariosPage",
   methods: {
@@ -86,8 +86,12 @@ export default {
 .tableusers table thead tr th {
   width: calc(100% / 5);
   background: #b2dfdb !important;
+  text-align: center !important;
 }
 .tableusers button {
   margin: 0.2rem;
+}
+.tableusers td {
+  text-align: center;
 }
 </style>

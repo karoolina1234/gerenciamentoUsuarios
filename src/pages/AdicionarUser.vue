@@ -76,14 +76,12 @@ const route = useRoute();
 const userId = computed(() => route.params.id);
 
 const user = computed(() => store.state.user);
-console.log("Estado do usuário:", user.value);
 
 if (userId.value) {
   store
     .dispatch("loadUsersById", userId.value)
     .then(() => {
       const value = user.value;
-      console.log("Usuário carregado:", value);
       if (value) {
         state.name = value?.name?.firstname || "";
         state.email = value.email || "";

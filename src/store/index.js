@@ -17,15 +17,18 @@ export default createStore({
       localStorage.setItem("user", JSON.stringify(user));
     },
     addUser(state, newUser) {
-      state.usersData.push(newUser);
+      const userAdd = {
+        ...newUser,
+        id: state.usersData.length + 1,
+        isCreate: true,
+      };
+      state.usersData.push(userAdd);
       localStorage.setItem("usersData", JSON.stringify(state.usersData));
     },
     updateUser(state, { id, newUser }) {
-      console.log("Olá", newUser);
       const userIndex = state.usersData.findIndex(
         (user) => user.id === parseInt(id)
       );
-      console.log({ userIndex }, state.usersData, id);
 
       const userUpdate = {
         ...newUser,
